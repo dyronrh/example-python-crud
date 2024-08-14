@@ -100,7 +100,7 @@ def test_update_user_wrong_payload(test_client, user_id, user_payload_updated):
 
 
 def test_update_user_doesnt_exist(test_client, user_id, user_payload_updated):
-    response = test_client.patch(f"/api/users/{user_id}", json=user_payload_updated)
+    response = test_client.patch(f"/v1/api/users/{user_id}", json=user_payload_updated)
     assert response.status_code == 404
     response_json = response.json()
     assert response_json["detail"] == f"No User with this id: `{user_id}` found"
