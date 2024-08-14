@@ -42,6 +42,7 @@ jobs:
           # add environment variables for tests
         shell: bash
         run: |
+          pip install pytest
           pytest
 
       - name: Upload artifact for deployment job
