@@ -63,7 +63,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}:v${{ GITHUB_RUN_NUMBER }} #latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}:v${{ env.GITHUB_RUN_NUMBER }} #latest
 
   deploy:
     needs: docker-build
