@@ -20,12 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Python version
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
 
       - name: Create and start virtual environment
         run: |
@@ -42,7 +43,6 @@ jobs:
           # add environment variables for tests
         shell: bash
         run: |
-          pip install pytest
           pytest
 
       - name: Upload artifact for deployment job
