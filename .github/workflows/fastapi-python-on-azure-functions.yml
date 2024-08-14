@@ -91,6 +91,6 @@ jobs:
           registryUrl: docker.io
           registryUsername: ${{ secrets.DOCKERHUB_USERNAME }}
           registryPassword: ${{ secrets.DOCKERHUB_TOKEN }}
-          containerAppName: staging-example-python-crud
+          containerAppName: staging-example-python-crud-test
           resourceGroup: DefaultResourceGroup-EUS
           imageToDeploy: dyronrh/example-python-crud:v1.0.0
