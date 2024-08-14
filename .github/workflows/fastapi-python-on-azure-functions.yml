@@ -47,7 +47,7 @@ jobs:
             !venv/
 
   docker-build:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -66,8 +66,8 @@ jobs:
           tags: user/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}:v${GITHUB_RUN_NUMBER} #latest
 
   deploy:
-    needs: build
-    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/staging' && needs.build.outputs.result == 'success'
+    needs: docker-build
+    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/staging' && needs.docker-build.outputs.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: 'Staging'
