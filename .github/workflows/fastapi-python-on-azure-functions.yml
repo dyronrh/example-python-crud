@@ -38,7 +38,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           pip install -r requirements.txt --target=".python_packages/lib/site-packages"
-          popd
 
       - name: Static Code Linting with flake8
         run: |
