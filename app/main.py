@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 
-app.include_router(user.router, tags=["Users"], prefix="/api/users")
+app.include_router(user.router, tags=["Users"], prefix="/v1/api/users")
 
 
 @app.get("/api/healthchecker")
