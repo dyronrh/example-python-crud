@@ -103,4 +103,3 @@ jobs:
       test_status: ${{ needs.test.result }}
       build_status: ${{ needs.docker-build.result }}
       deploy_status: ${{ needs.deploy.result }}
-
