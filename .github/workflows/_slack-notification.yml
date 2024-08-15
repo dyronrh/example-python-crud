@@ -6,6 +6,12 @@ on:
         deploy_status:
           required: true
           type: string
+        build_status:
+          required: true
+          type: string
+        test_status:
+          required: true
+          type: string
       secrets:
         SLACK_WEBHOOK_URL:
           required: true
@@ -24,7 +30,7 @@ jobs:
           # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "GitHub Action build result: ${{ inputs.deploy_status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "text": "GitHub Action test result: ${{ inputs.test_status }}\n"text": "GitHub Action build result: ${{ inputs.build_status }}\n"text": "GitHub Action deploy result: ${{ inputs.deploy_status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
               "blocks": [
                 {
                   "type": "section",
