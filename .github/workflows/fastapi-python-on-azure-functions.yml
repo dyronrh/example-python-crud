@@ -97,6 +97,5 @@ jobs:
     name: Notify to slack
     if: always()
     uses: ./.github/workflows/_slack-notification.yml
-    secrets:
-      token: ${{ secrets.SLACK_WEBHOOK_URL }}
+    secrets: inherit
 
