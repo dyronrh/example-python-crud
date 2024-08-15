@@ -94,6 +94,7 @@ jobs:
           targetPort: 8000
           imageToDeploy: dyronrh/example-python-crud:v1.0.0
   notify:
+    needs: [test, docker-build,deploy]
     name: Notify to slack
     if: always()
     uses: ./.github/workflows/_slack-notification.yml
