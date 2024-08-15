@@ -17,7 +17,7 @@ env:
   DOCKER_TAG: 'v1.0.0'
 
 jobs:
-  test:
+  test: #test job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -47,7 +47,7 @@ jobs:
           path: |
             !venv/
 
-  docker-build:
+  docker-build: #build job
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -66,9 +66,9 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}:${{ env.DOCKER_TAG }} #latest
 
-  deploy:
+  deploy: #deploy job
     needs: docker-build
-    #if: github.event.pull_request.merged == true && github.ref == 'refs/heads/staging' && needs.docker-build.outputs.result == 'success'
+    if: github.event.pull_request.merged == true && github.ref == 'refs/heads/staging' && needs.docker-build.outputs.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: 'Staging'
@@ -79,12 +79,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
