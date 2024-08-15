@@ -48,6 +48,7 @@ jobs:
           path: |
             !venv/
       - name: Notify to slack
+        if: always()
         uses: ./.github/workflows/_slack-notification.yml
         with:
           token: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -97,6 +98,7 @@ jobs:
           targetPort: 8000
           imageToDeploy: dyronrh/example-python-crud:v1.0.0
       - name: Notify to slack
+        if: always()
         uses: ./.github/workflows/_slack-notification.yml
         with:
           token: ${{ secrets.SLACK_WEBHOOK_URL }}
