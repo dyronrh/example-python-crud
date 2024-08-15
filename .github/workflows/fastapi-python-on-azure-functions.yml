@@ -49,7 +49,7 @@ jobs:
             !venv/
       - name: Notify to slack
         if: always()
-        uses: ./.github/workflows/_slack-notification.yml
+        uses: ./.github/actions/_slack-notification
         with:
           token: ${{ secrets.SLACK_WEBHOOK_URL }}
 
