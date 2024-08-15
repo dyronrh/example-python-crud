@@ -18,6 +18,7 @@ env:
 
 jobs:
   test: #test job
+    name: 🔬🩺🔬 Automation test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -46,8 +47,13 @@ jobs:
           name: python-app
           path: |
             !venv/
+      - name: Notify to slack
+        uses: ./.github/workflows/_slack-notification.yml
+        with:
+          token: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   docker-build: #build job
+    name: 🐳🐳🐳 Docker build and push
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -67,6 +73,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}:${{ env.DOCKER_TAG }} #latest
 
   deploy: #deploy job
+    name: 🚀🚀🚀 Deploy image on azure container app
     needs: docker-build
     if: github.event.pull_request.merged == true && github.ref == 'refs/heads/staging' && needs.docker-build.outputs.result == 'success'
     runs-on: ubuntu-latest
@@ -89,27 +96,8 @@ jobs:
           resourceGroup: DefaultResourceGroup-EUS
           targetPort: 8000
           imageToDeploy: dyronrh/example-python-crud:v1.0.0
-
-      - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.26.0
+      - name: Notify to slack
+        uses: ./.github/workflows/_slack-notification.yml
         with:
-          # Slack channel id, channel name, or user id to post message.
-          # See also: https://api.slack.com/methods/chat.postMessage#channels
-          channel-id: '#cicd-pipeline-setup'
-          # For posting a rich message using Block Kit
-          payload: |
-            {
-              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          token: ${{ secrets.SLACK_WEBHOOK_URL }}
+
