@@ -47,11 +47,7 @@ jobs:
           name: python-app
           path: |
             !venv/
-      - name: Notify to slack
-        if: always()
-        uses: ./.github/actions/_slack-notification
-        with:
-          token: ${{ secrets.SLACK_WEBHOOK_URL }}
+ 
 
   docker-build: #build job
     name: 🐳🐳🐳 Docker build and push
@@ -97,9 +93,10 @@ jobs:
           resourceGroup: DefaultResourceGroup-EUS
           targetPort: 8000
           imageToDeploy: dyronrh/example-python-crud:v1.0.0
-      - name: Notify to slack
-        if: always()
-        uses: ./.github/actions/_slack-notification
-        with:
-          token: ${{ secrets.SLACK_WEBHOOK_URL }}
+  notify:
+    name: Notify to slack
+    if: always()
+    uses: ./.github/workflows/_slack-notification.yml
+    with:
+      token: ${{ secrets.SLACK_WEBHOOK_URL }}
 
