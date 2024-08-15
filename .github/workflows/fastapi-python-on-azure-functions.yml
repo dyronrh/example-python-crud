@@ -100,5 +100,5 @@ jobs:
     uses: ./.github/workflows/_slack-notification.yml
     secrets: inherit
     with:
-      deploy_status: ${{ deploy.result }}
+      deploy_status: ${{ needs.deploy.result }}
 
